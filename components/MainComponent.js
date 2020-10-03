@@ -6,6 +6,7 @@ import { View,  Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator} from 'react-navigation-drawer';
+import { Icon } from 'react-native-elements';
 
 const MenuNavigator = createStackNavigator({
   Menu: { screen: Menu },
