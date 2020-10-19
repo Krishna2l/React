@@ -24,25 +24,33 @@ function RenderDish(props) {
 
     const dish = props.dish;
 
-    handleViewRef = ref => this.view = ref;
+    //handleViewRef = ref => this.view = ref;
 
-    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+    const recognizeDragL = ({ moveX, moveY, dx, dy }) => {
       if ( dx < -200 )
           return true;
       else
           return false;
   }
 
+  const recognizeDragR = ({ moveX, moveY, dx, dy }) => {
+    if ( dx > 200 )
+        return true;
+    else
+        return false;
+}
+
+ 
   const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gestureState) => {
           return true;
       },
 
-      onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
+     //onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
 
       onPanResponderEnd: (e, gestureState) => {
           console.log("pan responder end", gestureState);
-          if (recognizeDrag(gestureState))
+          if (recognizeDragL(gestureState))
               Alert.alert(
                   'Add Favorite',
                   'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -52,6 +60,8 @@ function RenderDish(props) {
                   ],
                   { cancelable: false }
               );
+          else if (recognizeDragR(gestureState))
+              props.toggleModal()
 
           return true;
       }
@@ -60,7 +70,7 @@ function RenderDish(props) {
         if (dish != null) {
             return(
                 <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
-                ref={this.handleViewRef}
+                //ref={this.handleViewRef}
             {...panResponder.panHandlers}>                
             <Card
                 featuredTitle={dish.name}
